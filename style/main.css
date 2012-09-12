@@ -1,12 +1,4 @@
-#bookmarks, #new-trail {
-	float: left;
-	width: 48%;
-	margin-right: 1%;
-	min-height: 300px;
-	border: 1px solid #666;
-}
-
-form 
-{
-	margin-bottom: 20px;
+body{
+	position: relative;
+	-webkit-transition: left .2s ease;
 }
