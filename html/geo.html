@@ -43,7 +43,13 @@
 		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 		var distance = R * c;
 		
-		alert('the campanile is ' + distance + 'km away');
+		if (distance < 0.3) {
+			console.log('distance: ' + distance);
+			alert('Congrats! You\'ve successfully checked in to the location');
+		} else {
+			console.log('distance: ' + distance);
+			alert('Sorry, you\'re not nearby the location you wish to checkin to. Try again!');
+		}
 	}
 
 	function error_callback(p)
