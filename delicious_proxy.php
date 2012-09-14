@@ -1,1 +1,0 @@
-{"errors":["A Delicious username was not provided.","A password was not provided."]}
