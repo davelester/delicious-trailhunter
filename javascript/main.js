@@ -1,3 +1,9 @@
+/*
+Author: tpryan 
+github: https://github.com/tpryan
+
+Simple script to add transition to all links. 
+*/
 document.addEventListener('DOMContentLoaded', function() {
   replaceLinks();
 });

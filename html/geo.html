@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="utf-8">
+	<title>Retrieving geolocation using brower</title>
+	<script src="../javascript/geo.js" type="text/javascript" charset="utf-8"></script>
+</head> 
+<body>
+<script>
+	if(geo_position_js.init()){
+		geo_position_js.getCurrentPosition(success_callback,error_callback,{enableHighAccuracy:true});
+	}
+	else{
+	 alert("Functionality not available");
+	}
+
+	function success_callback(p)
+	{
+		// for now, hard-coded lat/long of campanile
+		lat1 = 37.871944;
+		lon1 = -122.257778;
+		
+		// lat/long retrieved from web browser
+		lat2 = p.coords.latitude;
+		lon2 = p.coords.longitude;
+		
+		// Convert numeric degrees to radians
+		if (typeof(Number.prototype.toRad) === "undefined") {
+		  Number.prototype.toRad = function() {
+		    return this * Math.PI / 180;
+		  }
+		}
+		
+		// calculate distance using haversine formula, js example found here: http://www.movable-type.co.uk/scripts/latlong.html
+		var R = 6371; // km
+		var dLat = (lat2-lat1).toRad();
+		var dLon = (lon2-lon1).toRad();
+		var lat1 = lat1.toRad();
+		var lat2 = lat2.toRad();
+
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+		var distance = R * c;
+		
+		if (distance < 0.3) {
+			console.log('distance: ' + distance);
+			alert('Congrats! You\'ve successfully checked in to the location');
+		} else {
+			console.log('distance: ' + distance);
+			alert('Sorry, you\'re not nearby the location you wish to checkin to. Try again!');
+		}
+	}
+
+	function error_callback(p)
+	{
+		alert('error='+p.message);
+	}               
+</script>
+</body>
+</html>
+
