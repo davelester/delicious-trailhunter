@@ -40,8 +40,11 @@ else {
 			$time = splitUp(':', $userData[2], 1);
 			
 			if ($trailName == $trail ) { //trail(group) name was provided so we only get their data
-
+				
 				foreach($hints as $key=>$val) {		//if there is a tag for the current trail/group, add the stepnumber and time to the status array
+					if ($hints[$key]['completed'] == null) {
+						$hints[$key]['completed'] = false;
+					}
 					if  ($val['id']== $name) {
 						 $hints[$key]['completed'] = true;
 						 $hints[$key]['step'] = $stepNumber;
