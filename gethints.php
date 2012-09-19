@@ -1,55 +1,71 @@
 <?php
 
-$groupName = $_REQUEST['groupName'];
+include('delicious_proxy.php');
+$trailName = $_REQUEST['trail'];
+
 
 #connection data
-$username = 'iolabtrailhunter';
-$pass = 'bobglushko';
-$key = 'oeWKP--W6XeYKRHrgeKVvzBUzhucluq_ZBdxbKlhupU=';
-$url = 'http://feeds.delicious.com/v2/json/' . $username;   //.'?private=' . $key; this will be required when we make the bookmarks private
+$bundleUrl = 'https://api.del.icio.us/v1/json/tags/bundles/all';
+$bookmarkUrl = 'http://feeds.delicious.com/v2/json/';
 
-#connect to delicious
-$jsonBookmarks = file_get_contents($url);
-$pBookmarks = json_decode($jsonBookmarks);
+$proxy = new DeliciousProxy($bookmarkUrl);
+$pBookmarks = $proxy->public_get(false);
 
+$proxy->set_url($bundleUrl);
+$pBundles = $proxy->authenticated_get();
 
 $hints = array();
-	foreach($pBookmarks as $mark) {
+foreach($pBookmarks as $mark) {
 		$hint = $mark->n;
 		$id = splitUp(':', $mark->t[1], 1);
-		$item = array('id'=> $id, 'hint' => $hint, 'completed' => false);
+		$item = array('id'=> $id, 'hint' => $hint);
 		$hints[] = $item;
 	}
+	
 
-	//if no group  name is supplied we send back a default list with the hints
-if (empty($groupName)) {
-	print(json_encode($hints));	
-}
+if (empty($trailName)) { 	    //skip all this if we only we want the blank list...
+	print(json_encode($hints));
+}	
 else {
-	foreach($pBookmarks as $mark) {  //get the status for a particular group
-
-		for ($i = 2; $i < count($mark->t); $i++) {
+	foreach($pBundles['bundles'] as $bundle) {  //get the status for a particular group
+		$tagString = $bundle['bundle']['tags'];
+		$name = $bundle['bundle']['name'];
+		$tags = explode(' ', $tagString); // tags in tag bundles are separated by a space
+		
+		for ($i = 1; $i < count($tags); $i++) { //the first tag is the location name, the rest are user-added
 			
-			$userTags = explode('|', $mark->t[$i]);
-			$group = splitUp(':', $userTags[1], 1);
-
-			if ($group == $groupName) {
-				$stepNumber = splitUp(':', $userTags[0], 1);
-				$time = splitUp(':', $userTags[2], 1);
-				
+			$userData = explode('|', $tags[$i]);
+			$trail = splitUp(':', $userData[1], 1);
+			$stepNumber = splitUp(':', $userData[0], 1); 
+			$time = splitUp(':', $userData[2], 1);
 			
-				foreach($hints as $key=>$val) {
-					if  ($val['hint']== $mark->n) {
+			if ($trailName == $trail ) { //trail(group) name was provided so we only get their data
+
+				foreach($hints as $key=>$val) {		//if there is a tag for the current trail/group, add the stepnumber and time to the status array
+					if  ($val['id']== $name) {
 						 $hints[$key]['completed'] = true;
 						 $hints[$key]['step'] = $stepNumber;
 						 $hints[$key]['time'] = $time;
 					}
+				}
+			}
+			else if (strtolower($trailName) == 'all')  { //build leaderboard for all groups
+					foreach($hints as $key=>$val) {	
+						if ($hints[$key]['status'] == null) {
+							$hints[$key]['status'] = Array();
+						}
+						if  ($val['id']== $name) {
+							$groupStatus = Array( 'trail' => $trail, 'stepNumber' => $stepNumber, 'time' => $time );	
+							$hints[$key]['status'][] = $groupStatus;
+					}
+				}
+			
+			
+			
 			}
 		}
 	}
-}
-print(json_encode($hints));
-			
+	print(json_encode($hints));
 }
 
 function splitUp($separator, $item, $index) {
