@@ -12,7 +12,7 @@ $proxy = new DeliciousProxy($bookmarkUrl);
 $pBookmarks = $proxy->public_get(false);
 
 $proxy->set_url($bundleUrl);
-$pBundles = $proxy->authenticated_get();
+$pBundles = $proxy->authenticated_post();
 
 $hints = array();
 foreach($pBookmarks as $mark) {

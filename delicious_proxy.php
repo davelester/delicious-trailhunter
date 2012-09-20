@@ -17,13 +17,13 @@
 				$this->url = $newUrl;
 		    }
         
-			function authenticated_get() {
+			function authenticated_post($postData = "") {
                 $process = curl_init($this->url);
 				curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
 				curl_setopt($process, CURLOPT_TIMEOUT, 30);
 				curl_setopt($process, CURLOPT_POST, 1);
 				curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
-				curl_setopt($process, CURLOPT_POSTFIELDS, "");
+				curl_setopt($process, CURLOPT_POSTFIELDS, $postData);
 				curl_setopt($process, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 				$jsonData = curl_exec($process);
 				return json_decode($jsonData, true);
