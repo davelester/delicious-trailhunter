@@ -41,21 +41,23 @@
 
     <!-- Show specific Scavenger Hint info -->
     <div class="list-contents-container bg">
-      <ol class="rectangle-list">
-        <li><a href="">List item</a></li>          
-      </ol>
+        <div class="list-item-1">
+          <ol class="rectangle-list">
+          <li><a href="">List item</a></li>          
+        </ol>
 
-      <!-- Get current location -->
-      <div id="geolocation" style="display: none;">
-          <button name="geolocate" id="geolocate" type="submit" value="Locate Me" class="btn primary submit">Locate Me</button>
-          <div id="map"></div>
+        <!-- Get current location -->
+        <div id="geolocation" style="display: none;">
+            <button name="geolocate" id="geolocate" type="submit" value="Locate Me" class="btn primary submit">Locate Me</button>
+            <div id="map"></div>
+        </div>
+
+        <!-- Check if current location matches destination location, update Scavenger Hints list -->
+        <form id="checkin-form" method="post" action="#.php">
+            <button name="checkin" id="checkin" type="submit" value="checkin" class="btn primary submit">Check In</button>
+            <button name="cancel" id="cancel" type="submit" value="cancel" class="btn">Cancel</button>
+        </form>
       </div>
-
-      <!-- Check if current location matches destination location, update Scavenger Hints list -->
-      <form id="checkin-form" method="post" action="#.php">
-          <button name="checkin" id="checkin" type="submit" value="checkin" class="btn primary submit">Check In</button>
-          <button name="cancel" id="cancel" type="submit" value="cancel" class="btn">Cancel</button>
-      </form>
     </div>
 
     <!-- Leader board Start -->
