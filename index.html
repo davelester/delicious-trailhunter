@@ -7,11 +7,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <!-- Adding "maximum-scale=1" fixes the Mobile Safari auto-zoom bug: http://filamentgroup.com/examples/iosScaleBug/ -->
 
-  <title>Berkeley Scavanger Hunt</title>
+  <title>Berkeley Scavenger Hunt</title>
   
   <!-- Included CSS Files (Compressed) -->
   <link rel="stylesheet" href="style/main.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+  <div class="container">
+
+    <!-- Collect/Store Trail Name -->
+    <div class="trail-form bg">
+      <h1>Berkeley Scavenger Hunt</h1>
+      <div class="error-box"><p>Please enter a Trail Name.</p></div>
+      <form id="trailname-form" method="post" action="#.php">
+          <input name="trailname" id="trailname" type="text" placeholder="Trail Name">
+          <button name="submit" id="submit" type="submit" value="Submit" class="btn primary submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- Display Scavenger Hints from Delicious bundle -->
+    <div class="trail-list-container bg">
+      <h1>Get to Finding Places</h1>
+      <div class="completed-counter"><span>5</span> Completed Trails</div>
+      <ol class="rectangle-list">
+        <li><a href="">List item</a></li>
+        <li><a href="">List item</a></li>
+        <li><a href="">List item</a></li>
+        <li><a href="">List item</a></li>
+        <li><a href="">List item</a></li>           
+      </ol>
+    </div>
+
+    <!-- Show specific Scavenger Hint info -->
+    <div class="list-contents-container bg">
+      <ol class="rectangle-list">
+        <li><a href="">List item</a></li>          
+      </ol>
+
+      <!-- Get current location -->
+      <div id="geolocation" style="display: none;">
+          <button name="geolocate" id="geolocate" type="submit" value="Locate Me" class="btn primary submit">Locate Me</button>
+          <div id="map"></div>
+      </div>
+
+      <!-- Check if current location matches destination location, update Scavenger Hints list -->
+      <form id="checkin-form" method="post" action="#.php">
+          <button name="checkin" id="checkin" type="submit" value="checkin" class="btn primary submit">Check In</button>
+          <button name="cancel" id="cancel" type="submit" value="cancel" class="btn">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Leader board Start -->
+    <div class="leaderboard-container">
+
+      <div class="top-bg bg">
+        <h1>Berkeley Scavenger Hunt</h1>
+      </div>
+
+      <h2 class="ribbon">
+        <strong class="ribbon-content"> An Awesome Leaderboard</strong>
+      </h2>
+
+      <div class="btm-bg bg">
+        <h2>The best scavenger in Berkeley deserve some recognition.</h2>
+        <hr class="soften">
+
+        <!-- Player Data -->
+        <ol id="accordion" class="rectangle-list">
+          <li><a href="">List item <span>Time</span></a></li>
+            <ul>
+              <li>Golf<span>Time</span></li>
+              <li>Cricket</li>
+              <li>Football</li>
+            </ul>
+
+          <li><a href="">List item <span>Time</span></a></li>
+            <ul>
+              <li>Golf<span>Time</span></li>
+              <li>Cricket</li>
+              <li>Football</li>
+            </ul>
+            
+          <li><a href="">List item <span>Time</span></a></li>
+          <li><a href="">List item <span>Time</span></a></li>
+          <li><a href="">List item <span>Time</span></a></li>           
+        </ol>
+      </div>
+
+    </div>
+  </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script type="text/javascript">
       $(document).ready(function() {
@@ -72,7 +158,7 @@
           return false;
       }); 
   }); 
-</script>
+  </script>
   <script type="text/javascript">
     $(function() {
        if (navigator.geolocation) { // progressive enhancement, check that the functionality exists first
@@ -107,86 +193,9 @@
        }
     });
   </script>
-
-</head>
-<body>
-  <div class="container">
-
-    <div class="trail-form bg">
-      <h1>Berkeley Scavanger Hunt</h1>
-      <div class="error-box"><p>Please enter a Trail Name.</p></div>
-      <form id="trailname-form" method="post" action="#.php">
-          <input name="trailname" id="trailname" type="text" placeholder="Trail Name">
-          <button name="submit" id="submit" type="submit" value="Submit" class="btn primary submit">Submit</button>
-      </form>
-    </div>
-
-    <div class="trail-list-container bg">
-      <h1>Get to Finding Places</h1>
-      <div class="completed-counter"><span>5</span> Completed Trails</div>
-      <ol class="rectangle-list">
-        <li><a href="">List item</a></li>
-        <li><a href="">List item</a></li>
-        <li><a href="">List item</a></li>
-        <li><a href="">List item</a></li>
-        <li><a href="">List item</a></li>           
-      </ol>
-    </div>
-
-    <div class="list-contents-container bg">
-      <ol class="rectangle-list">
-        <li><a href="">List item</a></li>          
-      </ol>
-
-      <div id="geolocation" style="display: none;">
-          <button name="geolocate" id="geolocate" type="submit" value="Locate Me" class="btn primary submit">Locate Me</button>
-          <div id="map"></div>
-      </div>
-
-      <form id="checkin-form" method="post" action="#.php">
-          <button name="checkin" id="checkin" type="submit" value="checkin" class="btn primary submit">Check In</button>
-          <button name="cancel" id="cancel" type="submit" value="cancel" class="btn">Cancel</button>
-      </form>
-    </div>
-
-    <div class="leaderboard-container">
-
-      <div class="top-bg bg">
-        <h1>Berkeley Scavanger Hunt</h1>
-      </div>
-
-      <h2 class="ribbon">
-        <strong class="ribbon-content"> An Awesome Leaderboard</strong>
-      </h2>
-
-      <div class="btm-bg bg">
-        <h2>The best scavangers in Berkeley deserve some recognition.</h2>
-        <hr class="soften">
-
-        <ol id="accordion" class="rectangle-list">
-          <li><a href="">List item <span>Time</span></a></li>
-            <ul>
-              <li>Golf<span>Time</span></li>
-              <li>Cricket</li>
-              <li>Football</li>
-            </ul>
-
-          <li><a href="">List item <span>Time</span></a></li>
-            <ul>
-              <li>Golf<span>Time</span></li>
-              <li>Cricket</li>
-              <li>Football</li>
-            </ul>
-            
-          <li><a href="">List item <span>Time</span></a></li>
-          <li><a href="">List item <span>Time</span></a></li>
-          <li><a href="">List item <span>Time</span></a></li>           
-        </ol>
-      </div>
-
-    </div>
-  </div>
 <script type="text/javascript">
+  
+  //accordion Script 
   $("#accordion > li").click(function(){
 
   if(false == $(this).next().is(':visible')) {
