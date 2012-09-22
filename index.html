@@ -36,9 +36,7 @@
     <!-- Show specific Scavenger Hint info -->
     <div class="list-contents-container bg">
         <div class="list-item-1">
-          <ol class="rectangle-list">
-          <li><a href="">List item</a></li>          
-        </ol>
+          <div class="trail-title"><p>List item</p></div>
 
         <!-- Get current location -->
         <div id="geolocation" style="display: none;">
@@ -84,7 +82,7 @@
               <li>Cricket</li>
               <li>Football</li>
             </ul>
-            
+
           <li><a href="">List item <span>Time</span></a></li>
           <li><a href="">List item <span>Time</span></a></li>
           <li><a href="">List item <span>Time</span></a></li>           
@@ -93,7 +91,7 @@
 
     </div>
   </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script type="text/javascript">
       $(document).ready(function() {
@@ -101,62 +99,11 @@
       //if submit button is clicked
       $('#submit').click(function () {        
            
-          //Get the data from all the fields
-          var trailname = $('input[name=trailname]');
-          var errorbox = $('.error-box');
-          console.log(trailname);
-   
-          //Simple validation to make sure user entered something
-          //If error found, add hightlight class to the text field
-          if (trailname.val()=='') {
-              errorbox.addClass('error');
-              return false;
-          } else errorbox.removeClass('error');
-           
-           
-          //organize the data properly
-          var data = 'trailname=' + trailname.val();
-           
-          //disabled all the text fields
-          $('.text').attr('disabled','true');
-           
-          //show the loading sign
-          $('.loading').show();
-           
-          //start the ajax
-          $.ajax({
-              //this is the php file that processes the data returns the list
-              url: "#.php", 
-               
-              //GET method is used
-              type: "GET",
-   
-              //pass the data         
-              data: data,     
-              cache: false,
-               
-              //success
-              success: function (html) {              
-                  //if #.php returned true (display trail-list)
-                  if (html==1) {                  
-                      //hide the trail-form
-                      $('.trail-form').fadeOut('slow');                 
-                       
-                      //show the trail-list
-                      $('.trail-list-container').fadeIn('slow');
-                       
-                  //if #.php returned false
-                  } else alert('Sorry, unexpected error. Please try again.');               
-              }       
-          });
-           
-          //don't reload page
-          return false;
       }); 
   }); 
   </script>
   <script type="text/javascript">
-    $(function() {
+    $(function() { //Thanks to Gilbert and Andrew for an awsome demo of HTML5 geolocation
        if (navigator.geolocation) { // progressive enhancement, check that the functionality exists first
            $('#geolocation').show();
 
