@@ -97,8 +97,10 @@
       $(document).ready(function() {
        
       //if submit button is clicked
-      $('#submit').click(function () {        
-           
+      $('#submit').click(function () {
+				$('.trail-list-container').show();
+				$('.trail-form').hide();
+          return false;
       }); 
   }); 
   </script>
@@ -151,8 +153,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    var trailName = $('#trailname').val();
-    $.getJSON('gethints.php?trail=dave',
+  	var trailName = $('#trailname').val();
+    $.getJSON('gethints.php?trail=' + trailName,
      function(json){
         $(json).each(function(index) {
             $('<li></li>').html('<a href="' + this.id + '">' + this.hint + '</a>')
