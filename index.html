@@ -11,7 +11,6 @@
   
   <!-- Included CSS Files (Compressed) -->
   <link rel="stylesheet" href="style/main.css" />
-
 </head>
 <body>
   <div class="container">
@@ -30,12 +29,7 @@
     <div class="trail-list-container bg">
       <h1>Get to Finding Places</h1>
       <div class="completed-counter"><span>5</span> Completed Trails</div>
-      <ol class="rectangle-list">
-        <li><a href="">List item</a></li>
-        <li><a href="">List item</a></li>
-        <li><a href="">List item</a></li>
-        <li><a href="">List item</a></li>
-        <li><a href="">List item</a></li>           
+      <ol id="listOfPlaces" class="rectangle-list">    
       </ol>
     </div>
 
@@ -206,6 +200,20 @@
   $(this).next().slideToggle(300);
   return false;
   });
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var trailName = $('#trailname').val();
+    $.getJSON('gethints.php?trail=dave',
+     function(json){
+        $(json).each(function(index) {
+            $('<li></li>').html('<a href="' + this.id + '">' + this.hint + '</a>')
+.appendTo('ol#listOfPlaces');
+        });
+    });
+    return false;
+});
 </script>
 </body>
 
