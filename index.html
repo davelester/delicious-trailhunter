@@ -28,7 +28,7 @@
     <!-- Display Scavenger Hints from Delicious bundle -->
     <div class="trail-list-container bg">
       <h1>Get to Finding Places</h1>
-      <div class="completed-counter"><span>5</span> Locations Already Found</div>
+      <div class="completed-counter"><span></span> Locations Already Found</div>
       <ol id="listOfPlaces" class="rectangle-list">    
       </ol>
 
@@ -184,19 +184,25 @@
 			$('.trail-list-container').hide();
 		}
 
-		function getHintList() {
-			var trailName = localStorage['trailname'];
-			var hints = $.getJSON('gethints.php?trail=' + trailName,
-			function(json){
-				localStorage['hintJSON'] = JSON.stringify(json);
-				$(json).each(function(index) {
-					$('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
-					.appendTo('ol#listOfPlaces');
-				});
-			 });
+function getHintList() {
+      var completedCount = 0;
+      var trailName = localStorage['trailname'];
+      var hints = $.getJSON('gethints.php?trail=' + trailName,
+      function(json){
+        localStorage['hintJSON'] = JSON.stringify(json);
+        if (this.completed == true) {
+          completedCount++;
+        }
+        $(json).each(function(index) {
+          $('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
+          .appendTo('ol#listOfPlaces');
+        });
+        $(completedCount).appendTo('#completed-counter');
+        console.log(completedCount);
+       });
 
-			return false;
-		}
+      return false;
+    }
 
 		function getIndividualHint(id) {
 			var hints = JSON.parse(localStorage['hintJSON']);
