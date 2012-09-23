@@ -36,7 +36,7 @@
       <button name="leader" id="leader" type="submit" value="leader" class="btn">Check Leaderboard</button>
 			<hr class="soften">
 
-      <p>You are currently playing with with team <em>team name</em>.  If this is not your team, join or <a href="" id="clear">create a new one <span>&raquo;</span></a></p>
+      <p>You are currently playing with with team <span class="team-name"></span>.  If this is not your team, join or <a href="" id="clear">create a new one <span>&raquo;</span></a></p>
     </div>
 
     <!-- Show specific Scavenger Hint info -->
@@ -71,7 +71,7 @@
       </h2>
 
       <div class="btm-bg bg">
-        <h2>The best scavenger in Berkeley deserves some recognition for completeing the hunt.</h2>
+        <h2>The best scavenger in Berkeley deserves some recognition for completing the hunt.</h2>
         <hr class="soften">
 
         <!-- Player Data -->
@@ -106,7 +106,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script type="text/javascript">
-		$(document).ready(function() {			
+		$(document).ready(function() {
 			$("#individual-hint").live("click", function() {
 				var id = $(this).attr("class");
 				console.log('individual hint. id: ' + id);
@@ -116,6 +116,8 @@
 
 				getIndividualHint(id);
 			});
+
+			$('.team-name').append('<em>' + localStorage['trailname'] + '</em>');
 
 			$('#checkin').click(function() {
 				navigator.geolocation.getCurrentPosition(function(position) {
@@ -215,6 +217,20 @@
     function getLeaderBoard() {
         $('.leaderboard-container').show();
         $('.trail-list-container').hide();
+
+				// retrieve JSON of checking data
+				$.getJSON('gethints.php?trail=all', function(json) {
+
+					// loop through JSON locations
+					$(json).each(function(status) {
+						console.log(this.status);
+						
+						// loop through location statuses to retrieve individual checkins and assign to objects
+						$(status).each(function(foo) {
+							console.log(foo);
+						});
+					});
+				});
     }
 
   </script>
