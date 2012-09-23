@@ -33,7 +33,7 @@
       </ol>
 
 			<hr class="soften">
-			<p>You are currently playing with with team <em>team name</em>.  If this is not your team, join or create a new one.</p>
+			<p>You are currently playing with with team <em>team name</em>.  If this is not your team, join or <a href="" class="clear">create a new one</a>.</p>
     </div>
 
     <!-- Show specific Scavenger Hint info -->
@@ -107,14 +107,37 @@
 				
 				// If submit button is clicked
 	      $('#submit').click(function () {
-					getHintList();
-					localStorage['trailname'] = $('#trailname').val();
-					$('.trail-list-container').show();
-					$('.trail-form').hide();
-					return false;
+					//Get trailname form input
+          var trailname = $('input[name=trailname]');
+          var errorbox = $('.error-box');
+
+					//Simple validation to make sure user entered something
+					//If error found, add hightlight class to the text field
+					if (trailname.val()=='') {
+						errorbox.addClass('error');
+						return false;
+					} else {
+						errorbox.removeClass('error');
+						
+						getHintList();
+						localStorage['trailname'] = $('#trailname').val();
+						$('.trail-list-container').show();
+						$('.trail-form').hide();
+						return false;
+					}
 	      });
+	
+				$('.clear').click(function () {
+					clearLocalStorage();
+				});
 			}
   	});
+
+		function clearLocalStorage() {
+			localStorage.clear();
+			$('.trail-form').show();
+			$('.trail-list-container').hide();
+		}
 
 		function getHintList() {
 			var trailName = localStorage['trailname'];
