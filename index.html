@@ -94,18 +94,43 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script type="text/javascript">
-      $(document).ready(function() {
-       
-      //if submit button is clicked
-      $('#submit').click(function () {
+		$(document).ready(function() {
+			if (localStorage['trailname']) {
 				$('.trail-list-container').show();
-				$('.trail-form').hide();
-          return false;
-      }); 
-  }); 
+				getHintList();
+				return false;
+			} else {
+				$('.trail-form').show();
+				
+				// If submit button is clicked
+	      $('#submit').click(function () {
+					getHintList();
+					localStorage['trailname'] = $('#trailname').val();
+					$('.trail-list-container').show();
+					$('.trail-form').hide();
+					return false;
+	      });
+			}
+  	});
+
+		function getHintList() {
+			var trailName = localStorage['trailname'];
+			var hintJSON = $.getJSON('gethints.php?trail=' + trailName,
+			function(json){
+				$(json).each(function(index) {
+					$('<li></li>').html('<a href="' + this.id + '">' + this.hint + '</a>')
+					.appendTo('ol#listOfPlaces');
+				});
+			 });
+			return false;
+		}
+
+		function getIndividualHint(id) {
+			// iterate through hintJSON, and select the bookmark with the specified id
+		}
   </script>
   <script type="text/javascript">
-    $(function() { //Thanks to Gilbert and Andrew for an awsome demo of HTML5 geolocation
+    $(function() { // Thanks to Gilbert and Andrew for an awesome demo of HTML5 geolocation
        if (navigator.geolocation) { // progressive enhancement, check that the functionality exists first
            $('#geolocation').show();
 
@@ -149,20 +174,6 @@
   $(this).next().slideToggle(300);
   return false;
   });
-</script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-  	var trailName = $('#trailname').val();
-    $.getJSON('gethints.php?trail=' + trailName,
-     function(json){
-        $(json).each(function(index) {
-            $('<li></li>').html('<a href="' + this.id + '">' + this.hint + '</a>')
-.appendTo('ol#listOfPlaces');
-        });
-    });
-    return false;
-});
 </script>
 </body>
 
