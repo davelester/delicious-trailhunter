@@ -113,6 +113,10 @@
 
 				getIndividualHint(id);
 			});
+
+      $('#leader').click(function () {
+          getLeaderBoard();
+          });
 			
 			if (localStorage['trailname']) {
 				$('.trail-list-container').show();
@@ -146,6 +150,7 @@
 				$("#clear").click(function () {
 					clearLocalStorage();
 				});
+
 			}
   	});
 
@@ -181,13 +186,10 @@
 		}
 
     function getLeaderBoard() {
-      $('#leader').click(function () {
         $('.leaderboard-container').show();
         $('.trail-list-container').hide();
-
-      });
     }
-    
+
   </script>
   <script type="text/javascript">
     $(function() { // Thanks to Gilbert and Andrew for an awesome demo of HTML5 geolocation
