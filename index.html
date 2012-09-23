@@ -198,8 +198,7 @@ function getHintList() {
           $('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
           .appendTo('ol#listOfPlaces');
         });
-        $(completedCount).appendTo('#completed-counter');
-        console.log(completedCount);
+        $('#completed-counter span').append(completedCount);
        });
 
       return false;
