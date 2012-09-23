@@ -100,7 +100,7 @@
   <script type="text/javascript">
 		$(document).ready(function() {			
 			$("#individual-hint").live("click", function() {
-				var id = $('a').attr("class");
+				var id = $(this).attr("class");
 				console.log('individual hint. id: ' + id);
 				
 				$('.list-contents-container').show();
