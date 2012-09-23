@@ -22,6 +22,13 @@ hr.soften {
   background: -o-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
   border: 0;
 }
+a {
+  color: #666;
+  text-decoration: none;
+}
+a:hover {
+  color: #0CC6E7;
+}
 h1 {
     line-height: 40px;
     font-size: 28px;
@@ -44,7 +51,11 @@ h1 {
     box-shadow: 0px 1px 1px 0px rgba(255,255,255, .2), inset 0px 1px 1px 0px rgb(238,238,238);
     z-index: 1;
 }
-
+.trail-list-container p {
+  font-size: 13px;
+  color: #999;
+  text-align: left;
+}
 /* -----------------------------------------
   Form Styles
 ----------------------------------------- */

@@ -33,7 +33,7 @@
       </ol>
 
 			<hr class="soften">
-			<p>You are currently playing with with team <em>team name</em>.  If this is not your team, join or <a href="" class="clear">create a new one</a>.</p>
+			<p>You are currently playing with with team <em>team name</em>.  If this is not your team, join or <a href="" id="clear">create a new one <span>&raquo;</span></a></p>
     </div>
 
     <!-- Show specific Scavenger Hint info -->
@@ -127,7 +127,7 @@
 					}
 	      });
 	
-				$('.clear').click(function () {
+				$('#clear').click(function () {
 					clearLocalStorage();
 				});
 			}
