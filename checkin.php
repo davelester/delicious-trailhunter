@@ -21,14 +21,16 @@ $proxy = new DeliciousProxy($bookmarkUrl);
 $pBookmarks = $proxy->public_get(false);
 
 //scan through bookmarks and find the one matching the posted id
-$correctLat = $correctLong = null;
+$correctLat = 0;
+$correctLong = 0;
 $locationName = "";
 
 	foreach ($pBookmarks as $mark) {
-			$id = splitUp(':', $mark->t[1], 1);
-			if ($locationId == $id) {		//id is second tag on the bookmark
+			$id = splitUp(':', $mark->t[0], 1); //id is first tag on the bookmark
+			if ($locationId == $id) 
+			{	//coordinates are second tag
 				$locationName = $mark->d;
-				$coords = explode(':', $mark->t[0]);		//sigh...php
+				$coords = explode(':', $mark->t[1]);		
 				$coords = $coords[1];
 				$coords = explode('|', $coords);
 				$correctLat = $coords[0];
@@ -36,12 +38,15 @@ $locationName = "";
 				break;
 			}
 	}
-
 $res = true;
-///location calculations go here, comparing $lat and $long to $correctLat and $correctLong and put the result into $res
+$metersAway = haversineGreatCircleDistance($lat, $long, $correctLat, $correctLong);
+$temp = getTemp($metersAway);
 
+if ($metersAway > 30.48) {		//has to be within 100 ft
+	$res = false;
+}
 if (!$res) {
-	$arr =  Array('valid'=> $res);
+	$arr =  Array('valid'=> $res, 'temp'=> $temp);
 	print(json_encode($arr));
 }
 else {
@@ -89,4 +94,45 @@ function splitUp($separator, $item, $index) {
 	$items = explode($separator, $item);
 	return $items[$index];                    
 }
+
+
+
+/**
+source: http://stackoverflow.com/questions/10053358/measuring-the-distance-between-two-coordinates-in-php
+*/
+function haversineGreatCircleDistance(
+  $latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000)
+{
+  // convert from degrees to radians
+  $latFrom = deg2rad($latitudeFrom);
+  $lonFrom = deg2rad($longitudeFrom);
+  $latTo = deg2rad($latitudeTo);
+  $lonTo = deg2rad($longitudeTo);
+
+  $latDelta = $latTo - $latFrom;
+  $lonDelta = $lonTo - $lonFrom;
+
+  $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
+    cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+  return $angle * $earthRadius;
+}
+
+function getTemp($distance) {
+
+if ($distance > 30.48 && $distance <= 60.96) { //200ft
+	return "hot";
+}
+if ($distance > 60.96 && $distance <= 121.92) { //400ft
+	return "warm";
+}
+if ($distance > 121.92 && $distance <= 182.88) { //600ft
+	return "tepid";
+}
+if ($distance > 182.88 && $distance <= 243.84) { //800ft
+	return "cold";
+}
+return "freezing";
+}
+
 ?>
+
