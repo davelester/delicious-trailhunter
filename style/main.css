@@ -246,6 +246,7 @@ ol ol{
 .rectangle-list a{
   position: relative;
   display: block;
+  cursor: pointer;
   padding: .4em .4em .4em .8em;
   *padding: .4em;
   margin: .5em 0 .5em 2.5em;
