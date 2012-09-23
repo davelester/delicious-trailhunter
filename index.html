@@ -192,12 +192,12 @@ function getHintList() {
         localStorage['hintJSON'] = JSON.stringify(json);
         if (this.completed == true) {
           completedCount++;
-          $('#completed-counter span').html(completedCount);
         }
         $(json).each(function(index) {
           $('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
           .appendTo('ol#listOfPlaces');
         });
+        $(completedCount).appendTo('#completed-counter span');
        });
 
       return false;
