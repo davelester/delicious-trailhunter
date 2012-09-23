@@ -105,7 +105,7 @@
 				
 				$('.list-contents-container').show();
 				$('.trail-list-container').hide();
-				
+
 				getIndividualHint(id);
 			});
 			
@@ -154,24 +154,25 @@
 			var trailName = localStorage['trailname'];
 			var hints = $.getJSON('gethints.php?trail=' + trailName,
 			function(json){
+				localStorage['hintJSON'] = JSON.stringify(json);
 				$(json).each(function(index) {
 					$('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
 					.appendTo('ol#listOfPlaces');
 				});
 			 });
-			localStorage['hintJSON'] = JSON.stringify(hints);
+
 			return false;
 		}
 
 		function getIndividualHint(id) {
 			var hints = JSON.parse(localStorage['hintJSON']);
 			
-			alert(JSON.stringify(hints));
-			
-			if (hints.id == id) {
-				$('<p></p>').html( this.hint )
-				.appendTo('.trail-title');
-			}
+			$.each(hints, function(key, value) { 
+				if (value.id == id) {
+					$('<p></p>').html( this.hint )
+					.appendTo('.trail-title');
+				}
+			});
 		}
   </script>
   <script type="text/javascript">
