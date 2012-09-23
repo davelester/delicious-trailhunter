@@ -17,11 +17,10 @@ $pBundles = $proxy->authenticated_post();
 $hints = array();
 foreach($pBookmarks as $mark) {
 		$hint = $mark->n;
-		$id = splitUp(':', $mark->t[1], 1);
+		$id = splitUp(':', $mark->t[0], 1);
 		$item = array('id'=> $id, 'hint' => $hint);
 		$hints[] = $item;
 	}
-	
 
 if (empty($trailName)) { 	    //skip all this if we only we want the blank list...
 	print(json_encode($hints));
