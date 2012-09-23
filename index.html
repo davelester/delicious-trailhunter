@@ -226,8 +226,10 @@
 						console.log(this.status);
 						
 						// loop through location statuses to retrieve individual checkins and assign to objects
-						$(status).each(function(foo) {
-							console.log(foo);
+						$(this.status).each(function(foo) {
+							console.log('trail: ' + this.trail);
+							console.log('stepNumber: ' + this.stepNumber);
+							console.log('time: ' + this.time);
 						});
 					});
 				});
