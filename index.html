@@ -124,6 +124,21 @@
 				getIndividualHint(id);
 			});
 
+			$('#checkin').click(function() {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var latitude = position.coords.latitude;
+					var longitude = position.coords.longitude;
+					var trailName = localStorage['trailname'];
+					var id = $("p").attr("class");
+					
+					$.getJSON('checkin.php?trail=' + trailName + '&id=' + id + '&lat=' + latitude + '&long=' + longitude,
+					function(json){
+						console.log(json);
+						return false;
+					});
+				});
+			});
+
       $('#back').click(function () {
           goBacktoList();
           });
@@ -194,6 +209,7 @@
 			$.each(hints, function(key, value) { 
 				if (value.id == id) {
 					$('<p></p>').html( this.hint )
+					.addClass(this.id)
 					.appendTo('.trail-title');
 				}
 			});
@@ -219,7 +235,6 @@
 
                // navigator.geolocation.getCurrentPosition(success, error, options);
                navigator.geolocation.getCurrentPosition(function(position) {
-                    console.log(position);
 
                    var latLng = new google.maps.LatLng(position.coords.latitude,
                                                        position.coords.longitude);
