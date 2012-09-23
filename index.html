@@ -118,17 +118,20 @@
 
 		function getHintList() {
 			var trailName = localStorage['trailname'];
-			var hintJSON = $.getJSON('gethints.php?trail=' + trailName,
+			var hints = $.getJSON('gethints.php?trail=' + trailName,
 			function(json){
 				$(json).each(function(index) {
 					$('<li></li>').html('<a href="' + this.id + '">' + this.hint + '</a>')
 					.appendTo('ol#listOfPlaces');
 				});
 			 });
+			localStorage['hintJSON'] = JSON.stringify(hints);
 			return false;
 		}
 
 		function getIndividualHint(id) {
+			var hints = JSON.parse(localStorage['hintJSON']);
+			
 			// iterate through hintJSON, and select the bookmark with the specified id
 		}
   </script>
