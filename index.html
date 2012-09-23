@@ -39,7 +39,7 @@
     <!-- Show specific Scavenger Hint info -->
     <div class="list-contents-container bg">
         <div class="list-item-1">
-          <div class="trail-title"><p>List item</p></div>
+          <div class="trail-title"></div>
 
         <!-- Get current location -->
         <div id="geolocation" style="display: none;">
@@ -48,6 +48,7 @@
         </div>
 
         <!-- Check if current location matches destination location, update Scavenger Hints list -->
+<!-- /checkin.php?trail=[name]&id=[location id number]&lat=[latitude they think it's at]&long=[longitude they think it's at -->
         <form id="checkin-form" method="post" action="#.php">
             <button name="checkin" id="checkin" type="submit" value="checkin" class="btn primary submit">Check In</button>
             <button name="cancel" id="cancel" type="submit" value="cancel" class="btn">Cancel</button>
@@ -97,7 +98,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script type="text/javascript">
-		$(document).ready(function() {
+		$(document).ready(function() {			
+			$("#individual-hint").live("click", function() {
+				var id = $('a').attr("class");
+				console.log('individual hint. id: ' + id);
+				
+				$('.list-contents-container').show();
+				$('.trail-list-container').hide();
+				
+				getIndividualHint(id);
+			});
+			
 			if (localStorage['trailname']) {
 				$('.trail-list-container').show();
 				getHintList();
@@ -127,7 +138,7 @@
 					}
 	      });
 	
-				$('#clear').click(function () {
+				$("#clear").click(function () {
 					clearLocalStorage();
 				});
 			}
@@ -144,7 +155,7 @@
 			var hints = $.getJSON('gethints.php?trail=' + trailName,
 			function(json){
 				$(json).each(function(index) {
-					$('<li></li>').html('<a href="' + this.id + '">' + this.hint + '</a>')
+					$('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
 					.appendTo('ol#listOfPlaces');
 				});
 			 });
@@ -155,7 +166,12 @@
 		function getIndividualHint(id) {
 			var hints = JSON.parse(localStorage['hintJSON']);
 			
-			// iterate through hintJSON, and select the bookmark with the specified id
+			alert(JSON.stringify(hints));
+			
+			if (hints.id == id) {
+				$('<p></p>').html( this.hint )
+				.appendTo('.trail-title');
+			}
 		}
   </script>
   <script type="text/javascript">
