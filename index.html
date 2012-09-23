@@ -95,6 +95,7 @@
           <li><a href="">List item <span>Time</span></a></li>           
         </ol>
       </div>
+       <button name="back" id="back" type="submit" value="back" class="btn">Back to the List</button>
 
     </div>
 
@@ -113,6 +114,10 @@
 
 				getIndividualHint(id);
 			});
+
+      $('#back').click(function () {
+          goBacktoList();
+          });
 
       $('#leader').click(function () {
           getLeaderBoard();
@@ -184,6 +189,10 @@
 				}
 			});
 		}
+    function goBacktoList() {
+        $('.trail-list-container').show();
+        $('.leaderboard-container').hide();
+    }
 
     function getLeaderBoard() {
         $('.leaderboard-container').show();
