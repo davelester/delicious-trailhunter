@@ -25,3 +25,5 @@ Safari 6.0.1, Chrome 21.0.1180.89
 2. Our checkin function is too stringent about location. You have to be very close to the target to get a succesful checkin. 
 
 3. Audio file on the activity stream does not automatically stop playing when the user leaves the page.
+
+4. Current status doesn't work if you have checked in to less than 10 locations.
