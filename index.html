@@ -191,15 +191,18 @@ function getHintList() {
       var hints = $.getJSON('gethints.php?trail=' + trailName,
       function(json){
         localStorage['hintJSON'] = JSON.stringify(json);
-        if (this.completed == true) {
-          completedCount++;
-        }
+
+        //if (this.completed == false) {}
         $(json).each(function(index) {
-          $('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
+
+          if (this.completed == false) {
+            $('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
           .appendTo('ol#listOfPlaces');
+          } else {
+            completedCount++;
+          }
         });
         $('#completed-counter span').append(completedCount);
-        console.log(completedCount);
        });
 
       return false;
