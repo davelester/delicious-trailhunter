@@ -235,6 +235,7 @@ function getHintList() {
 				if (completedCount == 10) {
 					$('.trail-list-container').hide();
 					$('.leaderboard-container').show();
+					getLeaderBoard();
 				}
        });
 
@@ -266,9 +267,9 @@ function getHintList() {
         $('ol#accordion').empty();
         
 				var trailData = [];
-
+				
 				// retrieve JSON of checking data
-				$.getJSON('gethints.php?trail=dave', function(json) {
+				$.getJSON('gethints.php?trail=' + localStorage['trailname'], function(json) {
 
 					// loop through JSON locations
 					$(json).each(function(key, location) {
