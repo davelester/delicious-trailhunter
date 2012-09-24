@@ -134,9 +134,16 @@
 							   mapTypeId: google.maps.MapTypeId.ROADMAP
 						});
 						if (json.valid == true) {
-							getHintList();
-              $('.trail-list-container').delay(800).show();
-              $('.list-contents-container').delay(800).hide();
+							var infowindow = new google.maps.InfoWindow({
+								content: "<h3>Nicely Done!</h3><p>You found " + json.locationName + "</p>",
+								position: latLng
+							});			
+							infowindow.open(map);
+							setTimeout(function() {
+								$('.list-contents-container').hide();
+-              					$('.trail-list-container').show();
+								getHintList();
+							}, 2200);
 						}
 						else {
 							var msg = "";
