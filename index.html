@@ -267,6 +267,7 @@ function getHintList() {
         $('ol#accordion').empty();
         
 				var trailData = [];
+				var stepCounter = 0;
 				
 				// retrieve JSON of checking data
 				$.getJSON('gethints.php?trail=' + localStorage['trailname'], function(json) {
@@ -277,21 +278,26 @@ function getHintList() {
 						// loop through location statuses to retrieve individual checkins and assign to objects
 						$(location).each(function(key, value) {
 
-							trailData.push([value.step, value.time])
+							trailData.push([value.step, value.time]);
+							if (value.step) {
+								stepCounter++;
+							}
 						});
 					});
 
-					trailData.sort(sortByStep);
+					if (stepCounter > 0) {
+						trailData.sort(sortByStep);
 
-					if ($("ol#accordion").text().length > 0) {
-						console.log('hi');
+						$(trailData).each(function(k, v) {
+							var time = new Date ( this[1] * 1000);
+	            $('<li></li>').html('<a href="">' + this[0] + '<span>' + time.toDateString() + ' ' + time.toLocaleTimeString() + '</span></a>')
+	          	.appendTo('ol#accordion');
+						});	
+					} else {
+						$('<li></li>').html('<p>You haven\'t checked into any places yet! Good hunting! Giddy up!</p>')
+	          .appendTo('ol#accordion');
+						console.log('hey there');
 					}
-
-					$(trailData).each(function(k, v) {
-						var time = new Date ( this[1] * 1000);
-            $('<li></li>').html('<a href="">' + this[0] + '<span>' + time.toDateString() + ' ' + time.toLocaleTimeString() + '</span></a></li>')
-          	.appendTo('ol#accordion');
-					});	
 				});
     }
 
