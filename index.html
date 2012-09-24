@@ -296,7 +296,7 @@ function getHintList() {
     }
 
 		function sortByStep(a,b) {
-		var regex = /[0-9]/;
+		var regex = /[0-9]+/;
 		var numOne = parseInt((regex.exec(a))[0]);
 		var numTwo = parseInt((regex.exec(b))[0]);
 			if (numOne < numTwo)
