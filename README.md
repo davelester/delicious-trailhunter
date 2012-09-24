@@ -17,5 +17,9 @@ Javascript, PHP, HTML, CSS
  * [iolabtrailhunter](http://www.delicious.com/iolabtrailhunter)
 
 ### Browser Support
+Safari 6.0.1, Chrome 21.0.1180.89
 
 ### Bugs, Quirks, Easter Eggs
+1. Clearing local storage does not always work, as a result users who complete the game or want to start a new one will be caught between the leaderboard the current trail list. 
+
+2. Our checkin function does not calulate the correct distance. As a result users may recieve a successful checkin message when they are no where near the actual location. 
