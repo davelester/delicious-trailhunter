@@ -271,6 +271,8 @@ function getHintList() {
         $('.leaderboard-container').show();
         $('.trail-list-container').hide();
 
+				trails = {}
+
 				// retrieve JSON of checking data
 				$.getJSON('gethints.php?trail=all', function(json) {
 
@@ -279,11 +281,27 @@ function getHintList() {
 						
 						// loop through location statuses to retrieve individual checkins and assign to objects
 						$(this.status).each(function(key, value) {
-							console.log('trail: ' + value.trail);
-							console.log('stepNumber: ' + value.stepNumber);
-							console.log('time: ' + value.time);
+							name = value.trail;
+
+					    var trailName = name;
+					    if (!trails[trailName]){
+					        trails[trailName] = { data : [] };
+					    }
+
+					    trails[trailName].data.push(
+					    {
+					        stepNumber : value.stepNumber,
+					        time : value.time
+					    });
 						});
 					});
+				});
+								
+				// foreach trail, check if trail length == 10
+				$(trails).each(function(key, value) {
+					console.log(value);
+					if (value.length == 10) {
+					}
 				});
     }
 
