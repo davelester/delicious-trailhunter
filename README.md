@@ -23,3 +23,5 @@ Safari 6.0.1, Chrome 21.0.1180.89
 1. Clearing local storage does not always work, as a result users who complete the game or want to start a new one will be caught between the leaderboard the current trail list. 
 
 2. Our checkin function is too stringent about location. You have to be very close to the target to get a succesful checkin. 
+
+3. Audio file on the activity stream does not automatically stop playing when the user leaves the page.
