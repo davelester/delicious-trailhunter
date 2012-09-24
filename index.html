@@ -135,8 +135,8 @@
 						});
 						if (json.valid == true) {
 							getHintList();
-              $('.list-contents-container').delay(800).hide();
               $('.trail-list-container').delay(800).show();
+              $('.list-contents-container').delay(800).hide();
 						}
 						else {
 							var msg = "";
@@ -265,6 +265,7 @@ function getHintList() {
 		}
     function goBacktoList() {
         $('.trail-list-container').show();
+        $('.list-contents-container').hide();
         $('.leaderboard-container').hide();
     }
 
