@@ -280,10 +280,14 @@ function getHintList() {
 
 					trailData.sort(sortByStep);
 
-					$(trailData).each(function(k, v) {
-            $('<li></li>').html('<a href="">' + this.[0] + '<span>' + this.[1] + '</span></a></li>')
-          .appendTo('ol#accordion');
+					if ($("ol#accordion").text().length > 0) {
+						console.log('hi');
+					}
 
+					$(trailData).each(function(k, v) {
+						var time = new Date ( this[1] * 1000);
+            $('<li></li>').html('<a href="">' + this[0] + '<span>' + time.toDateString() + ' ' + time.toLocaleTimeString() + '</span></a></li>')
+          	.appendTo('ol#accordion');
 					});	
 				});
     }
