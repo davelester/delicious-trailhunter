@@ -290,19 +290,32 @@ function getHintList() {
 						
 						// loop through location statuses to retrieve individual checkins and assign to objects
 						$(location).each(function(key, value) {
-							
-							// for debugging purposes
-							// console.log(value.step);
-							// console.log(value.time);
-							
-							trailData.push([value.step, value.time])
 
+							trailData.push([value.step, value.time])
 						});
 					});
+
+					trailData.sort(sortByStep);
+
+					$(trailData).each(function(k, v) {
+
+						console.log(this[0]);
+						console.log(this[1]);
+
+					});	
 				});
-				
-				console.log(trailData);
     }
+
+		function sortByStep(a,b) {
+		var regex = /[0-9]/;
+		var numOne = parseInt((regex.exec(a))[0]);
+		var numTwo = parseInt((regex.exec(b))[0]);
+			if (numOne < numTwo)
+				return -1;
+			if (numOne > numTwo)
+				return 1;
+		  return 0;
+		  }
 
   </script>
   <script type="text/javascript">
