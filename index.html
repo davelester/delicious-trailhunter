@@ -192,7 +192,6 @@ function getHintList() {
       function(json){
         localStorage['hintJSON'] = JSON.stringify(json);
 
-        //if (this.completed == false) {}
         $(json).each(function(index) {
 
           if (this.completed == false) {
@@ -202,7 +201,12 @@ function getHintList() {
             completedCount++;
           }
         });
-        $('#completed-counter span').append(completedCount);
+        $('.completed-counter span').append(completedCount);
+
+				if (completedCount == 10) {
+					$('.trail-list-container').hide();
+	        $('.leaderboard-container').show();
+				}
        });
 
       return false;
