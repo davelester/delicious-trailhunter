@@ -273,38 +273,28 @@ function getHintList() {
         $('.leaderboard-container').show();
         $('.trail-list-container').hide();
 
-				trails = {}
+				var trailData = [];
 
 				// retrieve JSON of checking data
-				$.getJSON('gethints.php?trail=all', function(json) {
+				$.getJSON('gethints.php?trail=dave', function(json) {
 
 					// loop through JSON locations
-					$(json).each(function(status) {
+					$(json).each(function(key, location) {
 						
 						// loop through location statuses to retrieve individual checkins and assign to objects
-						$(this.status).each(function(key, value) {
-							name = value.trail;
+						$(location).each(function(key, value) {
+							
+							// for debugging purposes
+							// console.log(value.step);
+							// console.log(value.time);
+							
+							trailData.push([value.step, value.time])
 
-					    var trailName = name;
-					    if (!trails[trailName]){
-					        trails[trailName] = { data : [] };
-					    }
-
-					    trails[trailName].data.push(
-					    {
-					        stepNumber : value.stepNumber,
-					        time : value.time
-					    });
 						});
 					});
 				});
-								
-				// foreach trail, check if trail length == 10
-				$(trails).each(function(key, value) {
-					console.log(value);
-					if (value.length == 10) {
-					}
-				});
+				
+				console.log(trailData);
     }
 
   </script>
