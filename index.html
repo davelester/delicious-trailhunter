@@ -192,9 +192,9 @@ function getHintList() {
       function(json){
         localStorage['hintJSON'] = JSON.stringify(json);
 
-        $(json).each(function(index) {
+        $.each(json, function(key, value) {
 
-          if (this.completed == false) {
+          if (value.completed == false || value.completed == null) {
             $('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
           .appendTo('ol#listOfPlaces');
           } else {
@@ -205,7 +205,7 @@ function getHintList() {
 
 				if (completedCount == 10) {
 					$('.trail-list-container').hide();
-	        $('.leaderboard-container').show();
+					$('.leaderboard-container').show();
 				}
        });
 
