@@ -66,32 +66,15 @@
       </div>
 
       <h2 class="ribbon">
-        <strong class="ribbon-content">Your Activity Stream</strong>
+        <strong class="ribbon-content">You're Activity Stream</strong>
       </h2>
 
       <div class="btm-bg bg">
-        <h2>Your an awesome scavanger.</h2>
+        <h2>You're an awesome scavanger.</h2>
         <hr class="soften">
 
         <!-- Player Data -->
-        <ol id="accordion" class="rectangle-list">
-          <li><a href="">List item <span>Time</span></a></li>
-            <ul>
-              <li>Golf<span>Time</span></li>
-              <li>Cricket</li>
-              <li>Football</li>
-            </ul>
-
-          <li><a href="">List item <span>Time</span></a></li>
-            <ul>
-              <li>Golf<span>Time</span></li>
-              <li>Cricket</li>
-              <li>Football</li>
-            </ul>
-
-          <li><a href="">List item <span>Time</span></a></li>
-          <li><a href="">List item <span>Time</span></a></li>
-          <li><a href="">List item <span>Time</span></a></li>           
+        <ol id="accordion" class="rectangle-list">    
         </ol>
         <hr class="soften">
        <button name="back" id="back" type="submit" value="back" class="btn">Back to the List</button>
@@ -298,9 +281,8 @@ function getHintList() {
 					trailData.sort(sortByStep);
 
 					$(trailData).each(function(k, v) {
-
-						console.log(this[0]);
-						console.log(this[1]);
+            $('<li></li>').html('<a href="">' + this.[0] + '<span>' + this.[1] + '</span></a></li>')
+          .appendTo('ol#accordion');
 
 					});	
 				});
@@ -351,9 +333,10 @@ function getHintList() {
        }
     });
   </script>
-<script type="text/javascript">
+ <!-- For leaderboard in the future
+ <script type="text/javascript">
   
-  //accordion Script 
+  accordion Script 
   $("#accordion > li").click(function(){
 
   if(false == $(this).next().is(':visible')) {
@@ -362,7 +345,8 @@ function getHintList() {
   $(this).next().slideToggle(300);
   return false;
   });
-</script>
+
+</script> -->
 </body>
 
 </html>
