@@ -253,7 +253,7 @@ function getHintList() {
 
 		function getIndividualHint(id) {
 			var hints = JSON.parse(localStorage['hintJSON']);
-			
+			$('.trail-title').empty();
 			$.each(hints, function(key, value) { 
 				if (value.id == id) {
 					$('<p></p>').html( this.hint )
