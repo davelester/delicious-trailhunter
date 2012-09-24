@@ -1,7 +1,7 @@
 UC Berkeley Scavenger Hunt
 =====================
 
-A scavenger hunt for UC Berkeley's campus, powered by the Delicious API and completed as an assignment for [INFO 290, Information Organization Lab](http://courses.ischool.berkeley.edu/i290-iol/f12/). A live version of this is running at ___insert url here___.
+A scavenger hunt for UC Berkeley's campus, powered by the Delicious API and completed as an assignment for [INFO 290, Information Organization Lab](http://courses.ischool.berkeley.edu/i290-iol/f12/). A live version of this is running at [http://krushton.com](http://krushton.com/).
 
 ## Project Team and Roles
 * [Michael Hintze](http://michaelhintze.com) -- CSS and front-end rockstar
