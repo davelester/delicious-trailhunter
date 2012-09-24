@@ -47,16 +47,14 @@
 
         <!-- Get current location -->
         <div id="geolocation" style="display: none;">
-            <button name="geolocate" id="geolocate" type="submit" value="Locate Me" class="btn primary submit">Locate Me</button>
+            <button name="geolocate" id="geolocate" value="Locate Me" class="btn primary submit">Locate Me</button>
             <div id="map"></div>
         </div>
 
         <!-- Check if current location matches destination location, update Scavenger Hints list -->
 <!-- /checkin.php?trail=[name]&id=[location id number]&lat=[latitude they think it's at]&long=[longitude they think it's at -->
-        <form id="checkin-form" method="post" action="#.php">
-            <button name="checkin" id="checkin" type="submit" value="checkin" class="btn primary submit">Check In</button>
-            <button name="cancel" id="cancel" type="submit" value="cancel" class="btn">Cancel</button>
-        </form>
+            <button name="checkin" id="checkin" value="checkin" class="btn primary submit">Check In</button>
+            <button name="cancel" id="cancel" value="cancel" class="btn">Cancel</button>
       </div>
     </div>
 
@@ -68,7 +66,7 @@
       </div>
 
       <h2 class="ribbon">
-        <strong class="ribbon-content"> An Awesome Leaderboard</strong>
+        <strong class="ribbon-content">An Awesome Leaderboard</strong>
       </h2>
 
       <div class="btm-bg bg">
@@ -126,12 +124,47 @@
 					var longitude = position.coords.longitude;
 					var trailName = localStorage['trailname'];
 					var id = $("p").attr("class");
-					
+					var latLng = new google.maps.LatLng(latitude,longitude);
+
 					$.getJSON('checkin.php?trail=' + trailName + '&id=' + id + '&lat=' + latitude + '&long=' + longitude,
 					function(json){
-						console.log(json);
-						return false;
+						 var map = new google.maps.Map($('#map').get(0), {
+							   zoom: 15,
+							   center: latLng,
+							   mapTypeId: google.maps.MapTypeId.ROADMAP
+						});
+						if (json.valid == true) {
+							//do something cool.
+						}
+						else {
+							var msg = "";
+							switch(json.temp) {
+								case "hot":
+									msg = "You're on fire! Stop drop and roll <br>and you'll be there!";
+									break;
+								case "warm":
+									msg = "You're getting warmer. Break out the <br>sunglasses and keep hunting!";
+									break;
+								case "tepid":
+									msg = "You're on your way... maybe.";
+									break;
+								case "cold":
+									msg = "Do you a have a sweater? Because you're <br>pretty cold right now.";
+									break;
+								case "freezing":
+									msg = "Brrrrr. Seen a yeti yet? You're in <br>ice-cold territory.";
+									break;
+							}
+							var infowindow = new google.maps.InfoWindow({
+								content: "<h3>Incorrect Location</h3><p>" + msg + "</p>",
+								position: latLng
+							});			
+							infowindow.open(map);
+						}
+						
 					});
+					return false;
+					
 				});
 			});
 
