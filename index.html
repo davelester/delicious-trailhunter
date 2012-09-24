@@ -247,7 +247,7 @@ function getHintList() {
             completedCount++;
           }
         });
-        $('.completed-counter span').append(completedCount);
+        $('.completed-counter span').text(completedCount);
 
 				if (completedCount == 10) {
 					$('.trail-list-container').hide();
