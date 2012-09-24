@@ -123,7 +123,7 @@
 					var latitude = position.coords.latitude;
 					var longitude = position.coords.longitude;
 					var trailName = localStorage['trailname'];
-					var id = $("p").attr("class");
+					var id = $('#checkin').data("id");
 					var latLng = new google.maps.LatLng(latitude,longitude);
 
 					$.getJSON('checkin.php?trail=' + trailName + '&id=' + id + '&lat=' + latitude + '&long=' + longitude,
@@ -253,12 +253,13 @@ function getHintList() {
 
 		function getIndividualHint(id) {
 			var hints = JSON.parse(localStorage['hintJSON']);
-			
+			$('.trail-title').empty();
 			$.each(hints, function(key, value) { 
 				if (value.id == id) {
 					$('<p></p>').html( this.hint )
 					.addClass(this.id)
 					.appendTo('.trail-title');
+					$('#checkin').data("id", this.id);
 				}
 			});
 		}
