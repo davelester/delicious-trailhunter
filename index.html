@@ -270,13 +270,12 @@ function getHintList() {
 
 					// loop through JSON locations
 					$(json).each(function(status) {
-						console.log(this.status);
 						
 						// loop through location statuses to retrieve individual checkins and assign to objects
-						$(this.status).each(function(foo) {
-							console.log('trail: ' + this.trail);
-							console.log('stepNumber: ' + this.stepNumber);
-							console.log('time: ' + this.time);
+						$(this.status).each(function(key, value) {
+							console.log('trail: ' + value.trail);
+							console.log('stepNumber: ' + value.stepNumber);
+							console.log('time: ' + value.time);
 						});
 					});
 				});
