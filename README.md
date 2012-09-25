@@ -8,7 +8,7 @@ A scavenger hunt for UC Berkeley's campus, powered by the Delicious API and comp
 * [Dave Lester](http://davelester.org) -- Data integration and JS wizard
 * [Kate Rushton](http://krushton.com) -- Delicious API, Backend, and PHP ninja
 
-## What's Under the
+## What's Under the Hood
 
 ### Technologies Used
 Javascript, PHP, HTML, CSS
