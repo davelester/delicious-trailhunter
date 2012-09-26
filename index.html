@@ -88,265 +88,310 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script type="text/javascript">
-		$(document).ready(function() {
-			$("#individual-hint").live("click", function() {
-				var id = $(this).attr("class");
-				console.log('individual hint. id: ' + id);
-				
-				$('.list-contents-container').show();
-				$('.trail-list-container').hide();
+		$(document)
+    .ready(function () {
+    //Get individual trail hints
+    $("#individual-hint")
+        .live("click", function () {
+        var id = $(this)
+            .attr("class");
 
-				getIndividualHint(id);
-			});
+        $('.list-contents-container')
+            .show();
+        $('.trail-list-container')
+            .hide();
 
-			$('.team-name').append('<em>' + localStorage['trailname'] + '</em>');
+        getIndividualHint(id);
+    });
 
-			$('#checkin').click(function() {
-				navigator.geolocation.getCurrentPosition(function(position) {
-					var latitude = position.coords.latitude;
-					var longitude = position.coords.longitude;
-					var trailName = localStorage['trailname'];
-					var id = $('#checkin').data("id");
-					var latLng = new google.maps.LatLng(latitude,longitude);
+    $('.team-name')
+        .append('<em>' + localStorage['trailname'] + '</em>');
 
-					$.getJSON('checkin.php?trail=' + trailName + '&id=' + id + '&lat=' + latitude + '&long=' + longitude,
-					function(json){
-						 var map = new google.maps.Map($('#map').get(0), {
-							   zoom: 15,
-							   center: latLng,
-							   mapTypeId: google.maps.MapTypeId.ROADMAP
-						});
-						if (json.valid == true) {
-							var infowindow = new google.maps.InfoWindow({
-								content: "<h3>Nicely Done!</h3><p>You found " + json.locationName + "</p>",
-								position: latLng
-							});			
-							infowindow.open(map);
-							setTimeout(function() {
-								$('.list-contents-container').hide();
--              					$('.trail-list-container').show();
-								getHintList();
-							}, 2200);
-						}
-						else {
-							var msg = "";
-							switch(json.temp) {
-								case "hot":
-									msg = "You're on fire! Stop drop and roll <br>and you'll be there!";
-									break;
-								case "warm":
-									msg = "You're getting warmer. Break out the <br>sunglasses and keep hunting!";
-									break;
-								case "tepid":
-									msg = "You're on your way... maybe.";
-									break;
-								case "cold":
-									msg = "Do you a have a sweater? Because you're <br>pretty cold right now.";
-									break;
-								case "freezing":
-									msg = "Brrrrr. Seen a yeti yet? You're in <br>ice-cold territory.";
-									break;
-							}
-							var infowindow = new google.maps.InfoWindow({
-								content: "<h3>Incorrect Location</h3><p>" + msg + "</p>",
-								position: latLng
-							});			
-							infowindow.open(map);
-						}
-						
-					});
-					return false;
-					
-				});
-			});
+    $('#checkin')
+        .click(function () {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            var trailName = localStorage['trailname'];
+            var id = $('#checkin')
+                .data("id");
+            var latLng = new google.maps.LatLng(latitude, longitude);
 
-      $('#cancel').click(function () {
-          goBacktoList();
-          });
+            $.getJSON('checkin.php?trail=' + trailName + '&id=' + id + '&lat=' + latitude + '&long=' + longitude,
 
-      $('#back').click(function () {
-          goBacktoList();
-          });
+            function (json) {
+                var map = new google.maps.Map($('#map')
+                    .get(0), {
+                    zoom: 15,
+                    center: latLng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+                if (json.valid == true) {
+                    var infowindow = new google.maps.InfoWindow({
+                        content: "<h3>Nicely Done!</h3><p>You found " + json.locationName + "</p>",
+                        position: latLng
+                    });
+                    infowindow.open(map);
+                    setTimeout(function () {
+                        $('.list-contents-container')
+                            .hide(); - $('.trail-list-container')
+                            .show();
+                        getHintList();
+                    }, 2200);
+                } else {
+                    var msg = "";
+                    switch (json.temp) {
+                    case "hot":
+                        msg = "You're on fire! Stop drop and roll <br>and you'll be there!";
+                        break;
+                    case "warm":
+                        msg = "You're getting warmer. Break out the <br>sunglasses and keep hunting!";
+                        break;
+                    case "tepid":
+                        msg = "You're on your way... maybe.";
+                        break;
+                    case "cold":
+                        msg = "Do you a have a sweater? Because you're <br>pretty cold right now.";
+                        break;
+                    case "freezing":
+                        msg = "Brrrrr. Seen a yeti yet? You're in <br>ice-cold territory.";
+                        break;
+                    }
+                    var infowindow = new google.maps.InfoWindow({
+                        content: "<h3>Incorrect Location</h3><p>" + msg + "</p>",
+                        position: latLng
+                    });
+                    infowindow.open(map);
+                }
 
-      $('#leader').click(function () {
-          getLeaderBoard();
-          });
-			
-			if (localStorage['trailname']) {
-				$('.trail-list-container').show();
-				getHintList();
-				return false;
-			} else {
-				$('.trail-form').show();
-				
-				// If submit button is clicked
-	      $('#submit').click(function () {
-					//Get trailname form input
-          var trailname = $('input[name=trailname]');
-          var errorbox = $('.error-box');
+            });
+            return false;
 
-					//Simple validation to make sure user entered something
-					//If error found, add hightlight class to the text field
-					if (trailname.val()=='') {
-						errorbox.addClass('error');
-						return false;
-					} else {
-						errorbox.removeClass('error');
-						
-						getHintList();
-						localStorage['trailname'] = $('#trailname').val();
-						$('.trail-list-container').show();
-						$('.trail-form').hide();
-						return false;
-					}
-	      });
-	
-				$("#clear").click(function () {
-					clearLocalStorage();
-				});
+        });
+    });
 
-			}
-  	});
+    $('#cancel')
+        .click(function () {
+        goBacktoList();
+    });
 
-		function clearLocalStorage() {
-			localStorage.clear();
-			$('.trail-form').show();
-			$('.trail-list-container').hide();
-		}
+    $('#back')
+        .click(function () {
+        goBacktoList();
+    });
+
+    $('#leader')
+        .click(function () {
+        getLeaderBoard();
+    });
+
+    if (localStorage['trailname']) {
+        $('.trail-list-container')
+            .show();
+        getHintList();
+        return false;
+    } else {
+        $('.trail-form')
+            .show();
+
+        // If submit button is clicked
+        $('#submit')
+            .click(function () {
+            //Get trailname form input
+                      
+            var trailname = $('input[name=trailname]');          
+            var errorbox = $('.error-box');
+
+            //Simple validation to make sure user entered something
+            //If error found, add hightlight class to the text field
+            if (trailname.val() == '') {
+                errorbox.addClass('error');
+                return false;
+            } else {
+                errorbox.removeClass('error');
+
+                getHintList();
+                localStorage['trailname'] = $('#trailname')
+                    .val();
+                $('.trail-list-container')
+                    .show();
+                $('.trail-form')
+                    .hide();
+                return false;
+            }
+        });
+
+        $("#clear")
+            .click(function () {
+            clearLocalStorage();
+        });
+
+    }
+});
+
+function clearLocalStorage() {
+    localStorage.clear();
+    $('.trail-form')
+        .show();
+    $('.trail-list-container')
+        .hide();
+}
 
 function getHintList() {
-      var completedCount = 0;
-      var trailName = localStorage['trailname'];
-      var hints = $.getJSON('gethints.php?trail=' + trailName,
-      function(json){
+    var completedCount = 0;
+    var trailName = localStorage['trailname'];
+    var hints = $.getJSON('gethints.php?trail=' + trailName,
+
+    function (json) {
         localStorage['hintJSON'] = JSON.stringify(json);
 
-        $.each(json, function(key, value) {
+        $.each(json, function (key, value) {
 
-          if (value.completed == false || value.completed == null) {
-            $('<li></li>').html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
-          .appendTo('ol#listOfPlaces');
-          } else {
-            completedCount++;
-          }
+            if (value.completed == false || value.completed == null) {
+                $('<li></li>')
+                    .html('<a id="individual-hint" class="' + this.id + '">' + this.hint + '</a>')
+                    .appendTo('ol#listOfPlaces');
+            } else {
+                completedCount++;
+            }
         });
-        $('.completed-counter span').text(completedCount);
+        $('.completed-counter span')
+            .text(completedCount);
 
-				if (completedCount == 10) {
-					$('.trail-list-container').hide();
-					$('.leaderboard-container').show();
-					getLeaderBoard();
-				}
-       });
+        if (completedCount == 10) {
+            $('.trail-list-container')
+                .hide();
+            $('.leaderboard-container')
+                .show();
+            getLeaderBoard();
+        }
+    });
 
-      return false;
-    }
+    return false;
+}
 
-		function getIndividualHint(id) {
-			var hints = JSON.parse(localStorage['hintJSON']);
-			$('.trail-title').empty();
-			$.each(hints, function(key, value) { 
-				if (value.id == id) {
-					$('<p></p>').html( this.hint )
-					.addClass(this.id)
-					.appendTo('.trail-title');
-					$('#checkin').data("id", this.id);
-				}
-			});
-		}
-    function goBacktoList() {
-        $('.trail-list-container').show();
-        $('.list-contents-container').hide();
-        $('.leaderboard-container').hide();
-    }
+function getIndividualHint(id) {
+    var hints = JSON.parse(localStorage['hintJSON']);
+    $('.trail-title')
+        .empty();
+    $.each(hints, function (key, value) {
+        if (value.id == id) {
+            $('<p></p>')
+                .html(this.hint)
+                .addClass(this.id)
+                .appendTo('.trail-title');
+            $('#checkin')
+                .data("id", this.id);
+        }
+    });
+}
 
-    function getLeaderBoard() {
-        $('.leaderboard-container').show();
-        $('.trail-list-container').hide();
+function goBacktoList() {
+    $('.trail-list-container')
+        .show();
+    $('.list-contents-container')
+        .hide();
+    $('.leaderboard-container')
+        .hide();
+}
 
-        $('ol#accordion').empty();
-        
-				var trailData = [];
-				var stepCounter = 0;
-				
-				// retrieve JSON of checking data
-				$.getJSON('gethints.php?trail=' + localStorage['trailname'], function(json) {
+function getLeaderBoard() {
+    $('.leaderboard-container')
+        .show();
+    $('.trail-list-container')
+        .hide();
 
-					// loop through JSON locations
-					$(json).each(function(key, location) {
-						
-						// loop through location statuses to retrieve individual checkins and assign to objects
-						$(location).each(function(key, value) {
+    $('ol#accordion')
+        .empty();
 
-							trailData.push([value.step, value.time]);
-							if (value.step) {
-								stepCounter++;
-							}
-						});
-					});
+    var trailData = [];
+    var stepCounter = 0;
 
-					if (stepCounter > 0) {
-						trailData.sort(sortByStep);
+    // retrieve JSON of checking data
+    $.getJSON('gethints.php?trail=' + localStorage['trailname'], function (json) {
 
-						$(trailData).each(function(k, v) {
-							var time = new Date ( this[1] * 1000);
-	            $('<li></li>').html('<a href="">' + this[0] + '<span>' + time.toDateString() + ' ' + time.toLocaleTimeString() + '</span></a>')
-	          	.appendTo('ol#accordion');
-						});	
-					} else {
-						$('<li></li>').html('<p>You haven\'t checked into any places yet! Good hunting! Giddy up!</p>')
-	          .appendTo('ol#accordion');
-						console.log('hey there');
-					}
-				});
-    }
+        // loop through JSON locations
+        $(json)
+            .each(function (key, location) {
 
-		function sortByStep(a,b) {
-		var regex = /[0-9]+/;
-		var numOne = parseInt((regex.exec(a))[0]);
-		var numTwo = parseInt((regex.exec(b))[0]);
-			if (numOne < numTwo)
-				return -1;
-			if (numOne > numTwo)
-				return 1;
-		  return 0;
-		  }
+            // loop through location statuses to retrieve individual checkins and assign to objects
+            $(location)
+                .each(function (key, value) {
+
+                trailData.push([value.step, value.time]);
+                if (value.step) {
+                    stepCounter++;
+                }
+            });
+        });
+
+        if (stepCounter > 0) {
+            trailData.sort(sortByStep);
+
+            $(trailData)
+                .each(function (k, v) {
+                var time = new Date(this[1] * 1000);
+                $('<li></li>')
+                    .html('<a href="">' + this[0] + '<span>' + time.toDateString() + ' ' + time.toLocaleTimeString() + '</span></a>')
+                    .appendTo('ol#accordion');
+            });
+        } else {
+            $('<li></li>')
+                .html('<p>You haven\'t checked into any places yet! Good hunting! Giddy up!</p>')
+                .appendTo('ol#accordion');
+        }
+    });
+}
+
+function sortByStep(a, b) {
+    var regex = /[0-9]+/;
+    var numOne = parseInt((regex.exec(a))[0]);
+    var numTwo = parseInt((regex.exec(b))[0]);
+    if (numOne < numTwo) return -1;
+    if (numOne > numTwo) return 1;
+    return 0;
+}
 
   </script>
   <script type="text/javascript">
-    $(function() { // Thanks to Gilbert and Andrew for an awesome demo of HTML5 geolocation
-       if (navigator.geolocation) { // progressive enhancement, check that the functionality exists first
-           $('#geolocation').show();
+   $(function () { // Thanks to Gilbert and Andrew for an awesome demo of HTML5 geolocation
+     if (navigator.geolocation) { // progressive enhancement, check that the functionality exists first
+         $('#geolocation')
+             .show();
 
-           $('#geolocate').click(function() {
-               $('#map').show();
+         $('#geolocate')
+             .click(function () {
+             $('#map')
+                 .show();
 
-               // navigator.geolocation.getCurrentPosition(success, error, options);
-               navigator.geolocation.getCurrentPosition(function(position) {
+             // navigator.geolocation.getCurrentPosition(success, error, options);
+             navigator.geolocation.getCurrentPosition(function (position) {
 
-                   var latLng = new google.maps.LatLng(position.coords.latitude,
-                                                       position.coords.longitude);
+                 var latLng = new google.maps.LatLng(position.coords.latitude,
+                 position.coords.longitude);
 
-                   var map = new google.maps.Map($('#map').get(0), {
-                       zoom: 15,
-                       center: latLng,
-                       mapTypeId: google.maps.MapTypeId.ROADMAP
-                   });
+                 var map = new google.maps.Map($('#map')
+                     .get(0), {
+                     zoom: 15,
+                     center: latLng,
+                     mapTypeId: google.maps.MapTypeId.ROADMAP
+                 });
 
-                   var marker = new google.maps.Marker({
-                       position: latLng,
-                       map: map
-                   });
-               }, function(error) {
-                   $('#map').text(error.message);
-               });
+                 var marker = new google.maps.Marker({
+                     position: latLng,
+                     map: map
+                 });
+             }, function (error) {
+                 $('#map')
+                     .text(error.message);
+             });
 
-               return false;
-           });
-       }
-    });
+             return false;
+         });
+     }
+ });
   </script>
- <!-- For leaderboard in the future
+ <!-- For leaderboard expand in the future
  <script type="text/javascript">
   
   accordion Script 
