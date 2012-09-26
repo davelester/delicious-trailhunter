@@ -132,12 +132,14 @@
                         position: latLng
                     });
                     infowindow.open(map);
+					getHintList();
                     setTimeout(function () {
                         $('.list-contents-container')
-                            .hide(); - $('.trail-list-container')
-                            .show();
-                        getHintList();
+                            .hide();  
+							$('.trail-list-container').show();
+                        
                     }, 2200);
+					infowindow.close();
                 } else {
                     var msg = "";
                     switch (json.temp) {
@@ -239,6 +241,7 @@ function clearLocalStorage() {
 
 function getHintList() {
     var completedCount = 0;
+	$('ol#listOfPlaces').empty();
     var trailName = localStorage['trailname'];
     var hints = $.getJSON('gethints.php?trail=' + trailName,
 

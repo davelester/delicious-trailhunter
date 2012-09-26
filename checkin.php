@@ -42,7 +42,7 @@ $res = true;
 $metersAway = haversineGreatCircleDistance($lat, $long, $correctLat, $correctLong);
 $temp = getTemp($metersAway);
 
-if ($metersAway > 30.48) {		//has to be within 100 ft
+if ($metersAway > 60.48) {		//has to be within 200 ft
 	$res = false;
 }
 if (!$res) {
@@ -119,16 +119,16 @@ function haversineGreatCircleDistance(
 
 function getTemp($distance) {
 
-if ($distance > 30.48 && $distance <= 60.96) { //200ft
+if ($distance > 60.96 && $distance <= 121.92) { 
 	return "hot";
 }
-if ($distance > 60.96 && $distance <= 121.92) { //400ft
+if ($distance > 121.92 && $distance <= 182.88) { 
 	return "warm";
 }
-if ($distance > 121.92 && $distance <= 182.88) { //600ft
+if ($distance > 182.88 && $distance <= 243.84) { 
 	return "tepid";
 }
-if ($distance > 182.88 && $distance <= 243.84) { //800ft
+if ($distance > 243.84 && $distance <= 300) { 
 	return "cold";
 }
 return "freezing";
